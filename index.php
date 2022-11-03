@@ -50,8 +50,8 @@
 
 </div>
         
-		<!-- <script src="list_box_layout.js" type="text/javascript"></script> -->
-		<script src="https://yandex.st/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>	
+    <!-- <script src="list_box_layout.js" type="text/javascript"></script> -->
+    <script src="https://yandex.st/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>	
 </body>
 
 
