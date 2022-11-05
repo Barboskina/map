@@ -1,3 +1,5 @@
+ymaps.ready(init);
+
 function init() {
     var LAYER_NAME = 'user#layer',
         MAP_TYPE_NAME = 'user#customMap',
@@ -44,30 +46,95 @@ function init() {
     myMap.controls.add(zoomControl);
 
 
-    // Создаем собственный класс.
-    CustomControlClass = function (options) {
-        CustomControlClass.superclass.constructor.call(this, options);
-    };
 
-    // И наследуем его от collection.Item.
-    ymaps.util.augment(CustomControlClass, ymaps.collection.Item, {
-        onAddToMap: function (myMap) {
-            CustomControlClass.superclass.onAddToMap.call(this, myMap);
-            this.getParent().getChildElement(this).then(this._onGetChildElement, this);
-        },
-        _onGetChildElement: function (parentDomContainer) {
-            $('<div class="pt-5"><form  method="POST"><div class="pt-2"><input type="submit" name="1" value="1 этаж" class="btn btn-primary " /></div><div class="pt-2"><input type="submit" name="2" value="2 этаж" class="btn btn-primary" /></div><div class="pt-2"><input type="submit" name="3" value="3 этаж" class="btn btn-primary" /></div><div class="pt-2"><input type="submit" name="4" value="4 этаж" class="btn btn-primary" /></div></form></div>').appendTo(parentDomContainer);
-        },
-    });
-        
-    var customControl = new CustomControlClass();
+    ButtonLayout = ymaps.templateLayoutFactory.createClass([
+        '<form  method="POST"><div class="pt-2"><input type="submit" name="{{ data.title }}" value="{{ data.content }}" class="btn btn-primary " /></div></form>',
+    ].join('')),
 
-    myMap.controls.add(customControl, {
-        position: {
-            top: 10,
-            left: 10
+
+
+    button1 = new ymaps.control.Button({
+        data: {
+            content: "1 этаж",
+            title: 1,
+        },
+        options: {
+            layout: ButtonLayout,
+            maxWidth: [170, 190, 220]
         }
     });
+
+myMap.controls.add(button1, { 
+    float: 'none', 
+    position: {
+        left: '10px', 
+        top: '70px'
+    } 
+});
+
+
+button2 = new ymaps.control.Button({
+    data: {
+        content: "2 этаж",
+        title: 2,
+    },
+    options: {
+        layout: ButtonLayout,
+        maxWidth: [170, 190, 220]
+    }
+});
+
+myMap.controls.add(button2, { 
+    float: 'none', 
+    position: {
+        left: '10px', 
+        top: '115px'
+    } 
+});
+
+
+button3 = new ymaps.control.Button({
+    data: {
+        content: "3 этаж",
+        title: 3,
+    },
+    options: {
+        layout: ButtonLayout,
+        maxWidth: [170, 190, 220]
+    }
+});
+
+myMap.controls.add(button3, { 
+    float: 'none', 
+    position: {
+        left: '10px', 
+        top: '160px'
+    } 
+});
+
+
+button4 = new ymaps.control.Button({
+    data: {
+        content: "4 этаж",
+        title: 4,
+    },
+    options: {
+        layout: ButtonLayout,
+        maxWidth: [170, 190, 220]
+    }
+});
+
+myMap.controls.add(button4, { 
+    float: 'none', 
+    position: {
+        left: '10px', 
+        top: '205px'
+    } 
+});
+
+ 
+
+
 
 
     // Ставим метку в центр координат. Обратите внимание, координаты метки задаются в порядке [y, x].
@@ -176,7 +243,7 @@ function init() {
 
     // Создадим метку.
     var placemark = new ymaps.Placemark([55.75, 37.61], {
-        iconContent: "Азербайджан"}
+        iconContent: "123"}
     , {
         //preset: "islands#yellowStretchyIcon",
         // Отключаем кнопку закрытия балуна.
@@ -190,4 +257,3 @@ function init() {
 
 };
 
-ymaps.ready(init);

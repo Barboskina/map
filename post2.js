@@ -1,3 +1,5 @@
+ymaps.ready(init);
+
 function init() {
     var LAYER_NAME = 'user#layer#0',
         MAP_TYPE_NAME = 'user#customMap0',
@@ -42,30 +44,91 @@ function init() {
     });
     myMap.controls.add(zoomControl);
 
-    // Создаем собственный класс.
-    CustomControlClass = function (options) {
-        CustomControlClass.superclass.constructor.call(this, options);
-    };
 
-    // И наследуем его от collection.Item.
-    ymaps.util.augment(CustomControlClass, ymaps.collection.Item, {
-        onAddToMap: function (myMap) {
-            CustomControlClass.superclass.onAddToMap.call(this, myMap);
-            this.getParent().getChildElement(this).then(this._onGetChildElement, this);
+    ButtonLayout = ymaps.templateLayoutFactory.createClass([
+        '<form  method="POST"><div class="pt-2"><input type="submit" name="{{ data.title }}" value="{{ data.content }}" class="btn btn-primary " /></div></form>',
+    ].join('')),
+
+
+
+    button1 = new ymaps.control.Button({
+        data: {
+            content: "1 этаж",
+            title: 1,
         },
-        _onGetChildElement: function (parentDomContainer) {
-            $('<div class="pt-5"><form  method="POST"><div class="pt-2"><input type="submit" name="1" value="1 этаж" class="btn btn-primary " /></div><div class="pt-2"><input type="submit" name="2" value="2 этаж" class="btn btn-primary" /></div><div class="pt-2"><input type="submit" name="3" value="3 этаж" class="btn btn-primary" /></div><div class="pt-2"><input type="submit" name="4" value="4 этаж" class="btn btn-primary" /></div></form></div>').appendTo(parentDomContainer);
-        },
-    });
-
-    var customControl = new CustomControlClass();
-
-    myMap.controls.add(customControl, {
-        position: {
-            top: 10,
-            left: 10
+        options: {
+            layout: ButtonLayout,
+            maxWidth: [170, 190, 220]
         }
     });
+
+myMap.controls.add(button1, { 
+    float: 'none', 
+    position: {
+        left: '10px', 
+        top: '70px'
+    } 
+});
+
+
+button2 = new ymaps.control.Button({
+    data: {
+        content: "2 этаж",
+        title: 2,
+    },
+    options: {
+        layout: ButtonLayout,
+        maxWidth: [170, 190, 220]
+    }
+});
+
+myMap.controls.add(button2, { 
+    float: 'none', 
+    position: {
+        left: '10px', 
+        top: '115px'
+    } 
+});
+
+
+button3 = new ymaps.control.Button({
+    data: {
+        content: "3 этаж",
+        title: 3,
+    },
+    options: {
+        layout: ButtonLayout,
+        maxWidth: [170, 190, 220]
+    }
+});
+
+myMap.controls.add(button3, { 
+    float: 'none', 
+    position: {
+        left: '10px', 
+        top: '160px'
+    } 
+});
+
+
+button4 = new ymaps.control.Button({
+    data: {
+        content: "4 этаж",
+        title: 4,
+    },
+    options: {
+        layout: ButtonLayout,
+        maxWidth: [170, 190, 220]
+    }
+});
+
+myMap.controls.add(button4, { 
+    float: 'none', 
+    position: {
+        left: '10px', 
+        top: '205px'
+    } 
+});
 
 
     // Создаем многоугольник, используя вспомогательный класс Polygon.
@@ -175,6 +238,12 @@ function init() {
     // Добавляем коллекцию меток на карту.
     myMap.geoObjects.add(myCollection);
 
+
+
+    SearchLayout = ymaps.templateLayoutFactory.createClass([
+        '<input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search"></input>',
+    ].join(''))
+
     // Создаем экземпляр класса ymaps.control.SearchControl
     var mySearchControl = new ymaps.control.SearchControl({
         options: {
@@ -183,12 +252,23 @@ function init() {
             // Не будем показывать еще одну метку при выборе результата поиска,
             // т.к. метки коллекции myCollection уже добавлены на карту.
             noPlacemark: true,
-            resultsPerPage: 5
+            placeholderContent: 'Введите место или аудиторию',
+            resultsPerPage: 5,
+            //layout: SearchLayout
         }});
+
+
+    
+    
+
 
     // Добавляем контрол в верхний правый угол,
     myMap.controls.add(mySearchControl, { 
-        float: 'left',
+        float: 'left', 
+        // position: {
+        //     left: '100px', 
+        //     top: '20px'
+    //} 
     });
 
     }
@@ -256,4 +336,3 @@ function init() {
     return deferred.promise();
 
 };
-ymaps.ready(init);
