@@ -1,37 +1,35 @@
-ymaps.ready(init);
+import { Lay } from "../classLay.js";
 
-function init() {
+function createLevelMap4() {
     let newLay = new Lay;
-    let createdLevelMap = newLay.create(2, 'tiles3');
+    let createdMap = newLay.create(2, 'tiles3');
 
 
-    
+    /////////////////////линия для будующих путей/////////////////////////////////////////////////////
     // Создаем ломаную, используя класс GeoObject.
     var myGeoObject = new ymaps.GeoObject({
         // Описываем геометрию геообъекта.
         geometry: {
-            // Тип геометрии - "Ломаная линия".
-            type: "LineString",
-            // Указываем координаты вершин ломаной.
-            coordinates: [
+            type: "LineString",// Тип геометрии - "Ломаная линия".
+            coordinates: [// Указываем координаты вершин ломаной.
                 [40, 100],
                 [50, 70],
                 [80, 100]//сюда будет передаваться массив координат, собранный из отрезков пути
             ]
-            },
         },
+    },
         {
-        strokeColor: '#FF0000',// Цвет линии.
-        //opacity: 0, 
-        strokeWidth: 5 //Ширина линии.
-    });
+            strokeColor: '#FF0000',// Цвет линии.
+            //opacity: 0, 
+            strokeWidth: 5 //Ширина линии.
+        });
 
 
     // Добавляем линии на карту.
-    createdLevelMap.geoObjects.add(myGeoObject);
+    createdMap.geoObjects.add(myGeoObject);
 
-    // createdLevelMap.geoObjects.remove(myGeoObject); 
-
+    // createdMap.geoObjects.remove(myGeoObject); //удаление линии с карты
 
 };
 
+export { createLevelMap4 };

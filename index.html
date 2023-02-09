@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, viewport-fit=cover">
+  <title>Карта туалетов</title>
+  <link href="style.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
+
+  <script src="https://api-maps.yandex.ru/2.1/?apikey=f175462b-3144-476c-9729-375b68a90e9c&lang=ru_RU"
+    type="text/javascript"></script>
+
+</head>
+
+<body>
+
+  <header>
+
+    <div class="row-buttons">
+      <button id="btn1" class="btn btn-primary ">1 этаж</button>
+      <button id="btn2" class="btn btn-primary ">2 этаж</button>
+      <button id="btn3" class="btn btn-primary ">3 этаж</button>
+      <button id="btn4" class="btn btn-primary ">4 этаж</button>
+    </div>
+
+    <div class="in-row">
+      <input type="text" id="from" name="from" placeholder="Откуда" class="form-control" size="10">
+      <input type="text" id="to" name="to" placeholder="Куда" class="form-control" size="10">
+      <button id="pathButton" class="btn btn-warning">Показать</button>
+    </div>
+
+    <div class="in-row">
+      <input type="text" id="search" name="search" placeholder="Номер аудитории" value="" class="form-control"
+        size="10">
+      <button id="searchButton" class="btn btn-danger">Найти</button>
+    </div>
+
+  </header>
+
+  <div id="map" style="width: 100wh; height: 680px"></div>
+
+  <script src=".core/main.js" type="module"></script>
+
+</body>
+
+</html>

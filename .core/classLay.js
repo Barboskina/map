@@ -4,9 +4,9 @@ class Lay {
 
         const LAYER_NAME = 'user#layer';
         const MAP_TYPE_NAME = 'user#customMap';
-        const MAX_ZOOM = max_zoom;
-        const PIC_WIDTH = 1792;
-        const PIC_HEIGHT = 2000;
+        const MAX_ZOOM = 2;
+        const PIC_WIDTH = 1600;
+        const PIC_HEIGHT = 1600;
         //const PATH = `tiles/${path}`;
         const PATH = `tiles/` + path;
 
@@ -51,3 +51,4 @@ class Lay {
     }
 
 }
+export { Lay };
