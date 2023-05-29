@@ -16,6 +16,9 @@
   <script src="https://api-maps.yandex.ru/2.1/?apikey=f175462b-3144-476c-9729-375b68a90e9c&lang=ru_RU"
     type="text/javascript"></script>
 
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="jquery.autocomplete.js"></script>
+
 </head>
 
 <body>
@@ -23,21 +26,20 @@
   <header>
 
     <div class="row-buttons">
-      <button id="btn1" class="btn btn-primary ">1 этаж</button>
-      <button id="btn2" class="btn btn-primary ">2 этаж</button>
-      <button id="btn3" class="btn btn-primary ">3 этаж</button>
-      <button id="btn4" class="btn btn-primary ">4 этаж</button>
+      <button id="btn1" class="btn btn-primary">1 этаж</button>
+      <button id="btn2" class="btn btn-primary">2 этаж</button>
+      <button id="btn3" class="btn btn-primary">3 этаж</button>
+      <button id="btn4" class="btn btn-primary">4 этаж</button>
     </div>
 
     <div class="in-row">
-      <input type="text" id="from" name="from" placeholder="Откуда" class="form-control" size="10">
-      <input type="text" id="to" name="to" placeholder="Куда" class="form-control" size="10">
+      <div class="d-flex"><input type="search" id="from" name="from" placeholder="Откуда" class="form-control me-2"></div>
+      <div class="d-flex"><input type="search" id="to" name="to" placeholder="Куда" class="form-control me-2"></div>
       <button id="pathButton" class="btn btn-warning">Показать</button>
     </div>
 
-    <div class="in-row">
-      <input type="text" id="search" name="search" placeholder="Номер аудитории" value="" class="form-control"
-        size="10">
+    <div class="d-flex" role="search">
+      <input class="form-control me-2" id="search" name="search" type="search" placeholder="Номер аудитории" aria-label="Search">
       <button id="searchButton" class="btn btn-danger">Найти</button>
     </div>
 
@@ -46,7 +48,9 @@
   <div id="map" style="width: 100wh; height: 680px"></div>
 
   <script src=".core/main.js" type="module"></script>
+<script>
 
+  </script>
 </body>
 
 </html>

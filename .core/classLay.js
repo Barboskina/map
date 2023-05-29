@@ -1,13 +1,11 @@
 class Lay {
 
     create(max_zoom, path) {
-
         const LAYER_NAME = 'user#layer';
         const MAP_TYPE_NAME = 'user#customMap';
         const MAX_ZOOM = 2;
-        const PIC_WIDTH = 1600;
-        const PIC_HEIGHT = 1600;
-        //const PATH = `tiles/${path}`;
+        const PIC_WIDTH = 1000;
+        const PIC_HEIGHT = 1000;
         const PATH = `tiles/` + path;
 
         let Layer = function () {
@@ -33,7 +31,7 @@ class Lay {
             restrictMapArea: [[-PIC_HEIGHT / 2, -PIC_WIDTH / 2], [PIC_HEIGHT / 2, PIC_WIDTH / 2]]
         });
 
-        let zoomControl = new ymaps.control.ZoomControl({
+        let zoomControl = new ymaps.control.ZoomControl({//элемент изменения масштаба
             options: {
                 size: "small",
                 position: {
@@ -44,7 +42,6 @@ class Lay {
                 }
             }
         });
-
         createdLevelMap.controls.add(zoomControl);
 
         return createdLevelMap;
