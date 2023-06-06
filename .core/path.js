@@ -55,9 +55,6 @@ const clickPathButton = () => {
         }).number;// в массиве всех данных ищем индекс объекта
 
         if (IndexPointFrom >= 0 && IndexPointFrom >= 0) {
-            console.log(IndexPointFrom);
-            console.log(IndexPointTo);
-
             
             levelFrom = allPoints[IndexPointFrom].coords[2]; // узнаем этаж
             let levelTo = allPoints[IndexPointTo].coords[2]; // узнаем этаж

@@ -6,47 +6,33 @@ import { setNewPointForSearch } from "../search.js";
 
 function createLevelMap3() {
     let newLay = new Lay;
-    let createdMap = newLay.create(4, 'tiles3');
+    const MAX_ZOOM = 4, LAY_NUMBER = 3;
+    let createdMap = newLay.create(MAX_ZOOM, 'tiles3');
 
-    createdMap.geoObjects.add(getPointsforLevel(3));
+    let collections = getPointsforLevel(LAY_NUMBER);
+    createdMap.geoObjects.add(collections.myCollection);
 
-    setNewPointForSearch(createdMap, 3);
+    setNewPointForSearch(createdMap, LAY_NUMBER);
 
 
-
-    ////////////////метка, зависящая от масштаба///////////////////////////
-    var point = new ymaps.Placemark([0, 0], {
-        balloonContent: 'Координаты метки: [0, 0]'
-    }, {
-        preset: 'islands#darkOrangeDotIcon'
-    });
-    createdMap.geoObjects.add(point);
-    var created = true;
-
+    ////////////////метки, зависящие от масштаба///////////////////////////
+    var created = false;
     createdMap.events.add('boundschange', function (e) { //если меняется масштаб
         var eMap = e.get('target');// Получение ссылки на объект, сгенерировавший событие (карта).
         var currentZoom = eMap.getZoom();//получение масштаба
-        if (created && currentZoom!=3){//если масштаб не 2
-            createdMap.geoObjects.remove(point);//метка удаляется
+        if (created && currentZoom != MAX_ZOOM) {//если масштаб не max
+            createdMap.geoObjects.remove(collections.myCollectionMaxZoom);//метка удаляется
             created = false;
         }
-        if (!created && currentZoom==3){//если метка еще не создана и масштаб 2
-            point = new ymaps.Placemark([0, 0], {
-                balloonContent: 'Координаты метки: [0, 0]'
-            }, {
-                preset: 'islands#darkOrangeDotIcon'
-            });
-            createdMap.geoObjects.add(point);//добавление метки на карту
+        if (!created && currentZoom == MAX_ZOOM){//если метка еще не создана и масштаб max
+            createdMap.geoObjects.add(collections.myCollectionMaxZoom);//добавление метки на карту
             created = true;
         }
     });
 
 
-
-
-
-    /////////////////////линия для будующих путей/////////////////////////////////////////////////////
-    if (levelFrom == 3) {
+    /////////////////////линия для путей/////////////////////////////////////////////////////
+    if (levelFrom == LAY_NUMBER) {
         // Создаем ломаную, используя класс GeoObject.
         var myGeoObject = new ymaps.GeoObject({
             // Описываем геометрию геообъекта.
@@ -56,19 +42,25 @@ function createLevelMap3() {
             },
         },
             {
-                strokeColor: '#FF0000',// Цвет линии.
-                //opacity: 0, 
+                strokeColor: '#FF0000',// Цвет линии(красный)
+                //opacity: 0, //прозрачность
                 strokeWidth: 5 //Ширина линии.
             });
     
-    
-        // Добавляем линии на карту.
-        createdMap.geoObjects.add(myGeoObject);
+        createdMap.geoObjects.add(myGeoObject);// Добавляем линии на карту.
         createdMap.panTo([massOfCoords.at(-1)[0], massOfCoords.at(-1)[1]]);//и центр карты смещается к этому элементу
-
-        // createdMap.geoObjects.remove(myGeoObject); //удаление линии с карты
     }
 
-
+    //удаление маршрутов при сбросе полей ввода данных
+    document.querySelector("#to").addEventListener("search", function () {
+        if (document.querySelector("#to").textContent == "") {
+            createdMap.geoObjects.remove(myGeoObject);
+        }
+    });
+    document.querySelector("#from").addEventListener("search", function () {
+        if (document.querySelector("#from").textContent == "") {
+            createdMap.geoObjects.remove(myGeoObject);
+        }
+    });
 };
 export {createLevelMap3};

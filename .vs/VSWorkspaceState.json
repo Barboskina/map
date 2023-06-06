@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\.core",
+    "\\.core\\lays"
   ],
-  "SelectedNode": "\\D:\\XAMPP\\htdocs\\course",
+  "SelectedNode": "\\.core\\getPointsForLevel.js",
   "PreviewInSolutionExplorer": false
 }

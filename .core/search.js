@@ -69,25 +69,33 @@ const clickSearchButton = () => {
 }
 
 searchButton.addEventListener('click', clickSearchButton()); // действие при нажатии н кнопку найти
-searchButton.addEventListener('click', clickSearchButton()); // действие при нажатии н кнопку найти
 document.querySelector("#search").addEventListener("keyup", function(e) {//действие при нажатие enter
         if (e.keyCode === 13) {
             searchButton.click();
         }
     });
 
-let currentMark = null;
+//let currentMark = null;
 
 let setNewPointForSearch = (createdMap, currentLevel) => {
     if (x != null && y != null && level == currentLevel) {// при поиске находятся координаты искомого места
-        currentMark = createdMap.geoObjects.add(new ymaps.Placemark([x, y], { //в этом месте ставится метка
+        /*currentMark = createdMap.geoObjects.add(new ymaps.Placemark([x, y], { //в этом месте ставится метка
     }, {
         preset: 'islands#icon',
-        iconColor: '#FF0000'
-    }));
+        iconColor: '#FF0000',
+    }));*/
 
-    createdMap.panTo([x, y]);//и центр карты смещается к этому элементу
-}
+        createdMap.panTo([x, y]);//и центр карты смещается к этому элементу
+
+        document.querySelector("#search").addEventListener("search", function () {
+            if (document.querySelector("#search").textContent == "") {
+                //createdMap.geoObjects.remove(currentMark);
+                createdMap.panTo([0, 0]);
+            }
+        });
+    }
+
+
 }
 
 export { setNewPointForSearch };
