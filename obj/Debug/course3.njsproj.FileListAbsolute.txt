@@ -1,0 +1,6 @@
+D:\course3\obj\Debug\course3.njsproj.AssemblyReference.cache
+D:\course3\obj\Debug\course3.njsproj.CoreCompileInputs.cache
+D:\course3\bin\Microsoft.NodejsTools.WebRole.dll
+D:\course\map\obj\Debug\course3.njsproj.AssemblyReference.cache
+D:\course\map\obj\Debug\course3.njsproj.CoreCompileInputs.cache
+D:\course\map\bin\Microsoft.NodejsTools.WebRole.dll
