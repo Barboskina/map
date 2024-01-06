@@ -1,5 +1,5 @@
 class Level {
-    constructor(ymaps, maxZoom, floor, jsonPoints) {
+    constructor(ymaps, maxZoom, floor, jsonPoints, jsonMaxPoints, jsonSearchPoint) {
         const LAYER_NAME = 'user#layer' + floor;
         const MAP_TYPE_NAME = 'user#customMap';
         const PIC_WIDTH = 1000;
@@ -13,7 +13,7 @@ class Level {
             };
             return layer;
         };
-        console.log(ymaps);
+
         ymaps.layer.storage.add(LAYER_NAME, Layer);
         const mapType = new ymaps.MapType(MAP_TYPE_NAME, [LAYER_NAME]);
         ymaps.mapType.storage.add(MAP_TYPE_NAME, mapType);
@@ -46,7 +46,6 @@ class Level {
             let points = JSON.parse(jsonPoints);
             let collection = new ymaps.GeoObjectCollection();
             for (let i = 0; i < points.length; i++) {
-                console.log(points[i]);
                 let options = {};
                 if (points[i].preset) {
                     options = {preset: points[i].preset};
@@ -63,25 +62,58 @@ class Level {
                     }, options
                 ));
             }
+            console.log(collection);
             createdLevelMap.geoObjects.add(collection);
         }
+
+
         //////////////метки, зависящие от масштаба///////////////////////////
+        if (jsonMaxPoints) {
+            jsonMaxPoints = jsonMaxPoints.replace(/&quot;/ig,'"');
+            let maxPoints = JSON.parse(jsonMaxPoints);
+            let maxCollection = new ymaps.GeoObjectCollection();
+            for (let i = 0; i < maxPoints.length; i++) {
+                console.log(maxPoints[i]);
+                let options = {};
+                if (maxPoints[i].preset) {
+                    options = {preset: maxPoints[i].preset};
+                }
+                else {
+                    options = {
+                        iconLayout: 'default#image',
+                        iconImageHref: 'img/icon.png'
+                    };
+                }
+                maxCollection.add(new ymaps.Placemark(
+                    [maxPoints[i].y, maxPoints[i].x], {
+                        iconContent: maxPoints[i].name,
+                    }, options
+                ));
+            }
+
+        let created = false;
+        createdLevelMap.events.add('boundschange', function (e) { //если меняется масштаб
+            var eMap = e.get('target');// Получение ссылки на объект, сгенерировавший событие (карта).
+            var currentZoom = eMap.getZoom();//получение масштаба
+            if (created && currentZoom !== maxZoom) {//если масштаб не max
+                createdLevelMap.geoObjects.remove(maxCollection);//метка удаляется
+                created = false;
+            }
+            if (!created && currentZoom === maxZoom){//если метка еще не создана и масштаб max
+                createdLevelMap.geoObjects.add(maxCollection);//добавление метки на карту
+                created = true;
+            }
+        });
+        }
 
 
+        console.log(jsonSearchPoint);
 
-
-        // let created = false;
-        // createdLevelMap.events.add('boundschange', function (e) { //если меняется масштаб
-        //     const currentZoom = createdLevelMap.getZoom();//получение масштаба
-        //     if (created && currentZoom !== maxZoom) {//если масштаб не max
-        //         createdLevelMap.geoObjects.remove(collection);//метка удаляется
-        //         created = false;
-        //     }
-        //     if (!created && currentZoom === maxZoom){//если метка еще не создана и масштаб max
-        //         createdLevelMap.geoObjects.add(collection);//добавление метки на карту
-        //         created = true;
-        //     }
-        // });
-
+        if (jsonSearchPoint) {
+            jsonSearchPoint = jsonSearchPoint.replace(/&quot;/ig,'"');
+            let searchPoint = JSON.parse(jsonSearchPoint);
+            console.log(searchPoint);
+            createdLevelMap.panTo([searchPoint.y, searchPoint.x]);//и центр карты смещается к этому элементу
+        }
     }
 }

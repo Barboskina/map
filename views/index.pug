@@ -31,10 +31,10 @@ body
         <button id="pathButton" class="btn btn-warning">Применить</button>
         </div>
 
-        <div class="d-flex" role="search">
-        <input class="form-control me-2" id="search" name="search" type="search" placeholder="Номер аудитории" aria-label="Search">
-        <button id="searchButton" class="btn btn-danger">Поиск</button>
-        </div>
+        <form class="d-flex" hx-post="/search" hx-target="#map-container">
+            <input class="form-control me-2" name="search" id="search" type="search" placeholder="Номер аудитории">
+            <input id="searchButton" type="submit" class="btn btn-danger" value="Поиск">
+        </form>
 
     <div id="map-container" style="width: 100wh; height: 680px"></div>
 
