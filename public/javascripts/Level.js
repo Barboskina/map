@@ -1,5 +1,5 @@
 class Level {
-    constructor(ymaps, maxZoom, floor, jsonPoints, jsonMaxPoints, jsonSearchPoint) {
+    constructor(ymaps, maxZoom, floor, jsonPoints, jsonSearchPoint) {
         const LAYER_NAME = 'user#layer' + floor;
         const MAP_TYPE_NAME = 'user#customMap';
         const PIC_WIDTH = 1000;
@@ -41,71 +41,54 @@ class Level {
             })
         );
 
+
+        //////////////метки, зависящие от масштаба///////////////////////////
         if (jsonPoints) {
             jsonPoints = jsonPoints.replace(/&quot;/ig,'"');
             let points = JSON.parse(jsonPoints);
-            let collection = new ymaps.GeoObjectCollection();
-            for (let i = 0; i < points.length; i++) {
-                let options = {};
-                if (points[i].preset) {
-                    options = {preset: points[i].preset};
+            let collections = [];
+
+            for (let j = 0; j < points.length; j++) {
+                let collection = new ymaps.GeoObjectCollection();
+                for (let i = 0; i < points[j].length; i++) {
+                    let options = {};
+                    if (points[j][i].preset) {
+                        options = {preset: points[j][i].preset};
+                    }
+                    else {
+                        options = {
+                            iconLayout: 'default#image',
+                            iconImageHref: 'img/icon.png'
+                        };
+                    }
+
+                    collection.add(new ymaps.Placemark(
+                        [points[j][i].x, points[j][i].y], {
+                            iconContent: (points[j][i].name === null || points[j][i].name === '') ? points[j][i].id : points[j][i].name,
+                        }, options
+                    ));
                 }
-                else {
-                    options = {
-                        iconLayout: 'default#image',
-                        iconImageHref: 'img/icon.png'
-                    };
-                }
-                collection.add(new ymaps.Placemark(
-                    [points[i].y, points[i].x], {
-                        iconContent: points[i].name,
-                    }, options
-                ));
+                collections.push(collection);
             }
-            console.log(collection);
-            createdLevelMap.geoObjects.add(collection);
+
+            let curZoom = createdLevelMap.getZoom();
+            for (let i = 0; i < collections.length && i < curZoom; i++) {
+                createdLevelMap.geoObjects.add(collections[i]);
+            }
+
+            createdLevelMap.events.add('boundschange', function (e) { //если меняется масштаб
+                const eMap = e.get('target');// Получение ссылки на объект, сгенерировавший событие (карта).
+                const changedZoom = eMap.getZoom();//получение масштаба
+
+                if (changedZoom > curZoom) {
+                    createdLevelMap.geoObjects.add(collections[changedZoom-1]);
+                }
+                if (changedZoom < curZoom) {
+                    createdLevelMap.geoObjects.remove(collections[curZoom-1]);
+                }
+                curZoom = changedZoom;
+            });
         }
-
-
-        //////////////метки, зависящие от масштаба///////////////////////////
-        if (jsonMaxPoints) {
-            jsonMaxPoints = jsonMaxPoints.replace(/&quot;/ig,'"');
-            let maxPoints = JSON.parse(jsonMaxPoints);
-            let maxCollection = new ymaps.GeoObjectCollection();
-            for (let i = 0; i < maxPoints.length; i++) {
-                console.log(maxPoints[i]);
-                let options = {};
-                if (maxPoints[i].preset) {
-                    options = {preset: maxPoints[i].preset};
-                }
-                else {
-                    options = {
-                        iconLayout: 'default#image',
-                        iconImageHref: 'img/icon.png'
-                    };
-                }
-                maxCollection.add(new ymaps.Placemark(
-                    [maxPoints[i].y, maxPoints[i].x], {
-                        iconContent: maxPoints[i].name,
-                    }, options
-                ));
-            }
-
-        let created = false;
-        createdLevelMap.events.add('boundschange', function (e) { //если меняется масштаб
-            var eMap = e.get('target');// Получение ссылки на объект, сгенерировавший событие (карта).
-            var currentZoom = eMap.getZoom();//получение масштаба
-            if (created && currentZoom !== maxZoom) {//если масштаб не max
-                createdLevelMap.geoObjects.remove(maxCollection);//метка удаляется
-                created = false;
-            }
-            if (!created && currentZoom === maxZoom){//если метка еще не создана и масштаб max
-                createdLevelMap.geoObjects.add(maxCollection);//добавление метки на карту
-                created = true;
-            }
-        });
-        }
-
 
         console.log(jsonSearchPoint);
 
@@ -113,7 +96,7 @@ class Level {
             jsonSearchPoint = jsonSearchPoint.replace(/&quot;/ig,'"');
             let searchPoint = JSON.parse(jsonSearchPoint);
             console.log(searchPoint);
-            createdLevelMap.panTo([searchPoint.y, searchPoint.x]);//и центр карты смещается к этому элементу
+            createdLevelMap.panTo([searchPoint.x, searchPoint.y]);//и центр карты смещается к этому элементу
         }
     }
 }

@@ -10,7 +10,6 @@ html(lang="ru")
         script(src="./javascripts/Level.js")
 
         script(src="https://api-maps.yandex.ru/2.1/?apikey=f175462b-3144-476c-9729-375b68a90e9c&lang=ru_RU" type="text/javascript")
-        script(src="https://code.jquery.com/jquery-3.4.1.min.js")
         script(src="https://unpkg.com/htmx.org@1.9.8")
 body
     header
@@ -21,18 +20,18 @@ body
         <button id="btn4" class="btn btn-primary" hx-post="/four-floor" hx-target="#map-container">4 этаж</button>
         </div>
 
-        <div class="in-row">
-        <div class="d-flex">
-        <input type="search" id="from" name="from" placeholder="Откуда" class="form-control me-2">
-        </div>
-        <div class="d-flex">
-        <input type="search" id="to" name="to" placeholder="Куда" class="form-control me-2">
-        </div>
-        <button id="pathButton" class="btn btn-warning">Применить</button>
-        </div>
+        <form class="in-row" hx-post="/path" hx-target="#map-container">
+            <div class="d-flex">
+                <input type="search" id="from" name="from" placeholder="Откуда" class="form-control me-2">
+            </div>
+            <div class="d-flex">
+                <input type="search" id="to" name="to" placeholder="Куда" class="form-control me-2">
+            </div>
+            <button id="pathButton" class="btn btn-warning">Применить</button>
+        </form>
 
         <form class="d-flex" hx-post="/search" hx-target="#map-container">
-            <input class="form-control me-2" name="search" id="search" type="search" placeholder="Номер аудитории">
+            <input class="form-control me-2" hx-post="/live-search" hx-swap="beforeend" hx-trigger="keyup changed" name="search" id="search" type="search" placeholder="Номер аудитории">
             <input id="searchButton" type="submit" class="btn btn-danger" value="Поиск">
         </form>
 
